@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Splash</title>
+    <style>
+        :root {
+            --ml-dark: #333;
+            --ml-yellow: #FFC300;
+            --ml-slate: #64748B;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: sans-serif;
+        }
+
+        #splash {
+            position: fixed;
+            inset: 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stack {
+            position: relative;
+            width: 120px;
+            height: 100px;
+        }
+
+        .layer {
+            position: absolute;
+            left: 0;
+            width: 120px;
+            height: 35px;
+            border-radius: 50% / 50%;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .layer.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .layer-bottom {
+            background-color: var(--ml-dark);
+            z-index: 10;
+            top: 53px;
+        }
+
+        .layer-middle {
+            background-color: var(--ml-yellow);
+            z-index: 20;
+            top: 15px;
+        }
+
+        .layer-top {
+            border: 2px solid var(--ml-slate);
+            z-index: 30;
+            top: 0px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div id="splash">
+    <div class="stack">
+        <div class="layer layer-bottom"></div>
+        <div class="layer layer-middle"></div>
+        <div class="layer layer-top"></div>
+    </div>
+</div>
+
+<script>
+    const layers = document.querySelectorAll('.layer');
+
+    function playAnimation() {
+\        layers.forEach((layer, index) => {
+            setTimeout(() => {
+                layer.classList.add('active');
+            }, index * 400);
+        });
+
+        const disappearDelay = 2500;
+        layers.forEach((_, index) => {
+            setTimeout(() => {
+                layers[2 - index].classList.remove('active');
+            }, disappearDelay + (index * 300));
+        });
+    }
+
+    playAnimation();
+    setInterval(playAnimation, 5000);
+</script>
+
+</body>
+</html>
